@@ -35,7 +35,7 @@ const ScanDetails = ({ onLogout }) => {
     return () => clearInterval(interval);
   }, [scanId]);
 
-  const loadScanDetails = async () => {
+  const loadScanDetails = async (retryCount = 0) => {
     try {
       const [scansResponse, vulnerabilitiesResponse] = await Promise.all([
         axios.get(`${API}/scans`),
@@ -43,10 +43,22 @@ const ScanDetails = ({ onLogout }) => {
       ]);
       
       const scanData = scansResponse.data.find(s => s.id === scanId);
+      if (!scanData && retryCount < 2) {
+        // Retry after 1 second if scan not found
+        setTimeout(() => loadScanDetails(retryCount + 1), 1000);
+        return;
+      }
+      
       setScan(scanData);
       setVulnerabilities(vulnerabilitiesResponse.data);
     } catch (error) {
+      if (retryCount < 2) {
+        // Retry after 2 seconds on error
+        setTimeout(() => loadScanDetails(retryCount + 1), 2000);
+        return;
+      }
       toast.error('Failed to load scan details');
+      console.error('Scan details loading error:', error);
     } finally {
       setLoading(false);
     }
