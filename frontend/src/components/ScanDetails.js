@@ -95,10 +95,32 @@ const ScanDetails = ({ onLogout }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="spinner mx-auto mb-4" style={{width: '40px', height: '40px'}}></div>
-          <p className="text-gray-400">Loading scan details...</p>
+      <div className="min-h-screen">
+        {/* Navigation */}
+        <nav className="navbar">
+          <div className="navbar-content">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="btn btn-secondary"
+                data-testid="back-to-dashboard"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Dashboard
+              </button>
+              <div className="navbar-brand flex items-center gap-2">
+                <Shield className="w-6 h-6" />
+                Loading Scan...
+              </div>
+            </div>
+          </div>
+        </nav>
+        
+        <div className="flex items-center justify-center" style={{height: 'calc(100vh - 80px)'}}>
+          <div className="text-center">
+            <div className="spinner mx-auto mb-4" style={{width: '40px', height: '40px'}}></div>
+            <p className="text-gray-400">Loading scan details...</p>
+          </div>
         </div>
       </div>
     );
