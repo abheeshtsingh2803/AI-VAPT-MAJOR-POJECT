@@ -68,17 +68,21 @@ const Dashboard = ({ onLogout }) => {
 
     setLoading(true);
     try {
+      toast.loading('Starting vulnerability scan...', { id: 'scan-start' });
+      
       const response = await axios.post(`${API}/scans/start`, {
         target_url: newScanUrl,
         scan_type: 'web_app'
       });
 
-      toast.success('Vulnerability scan started!');
+      toast.success('Vulnerability scan started! This may take a few minutes.', { id: 'scan-start' });
       setShowNewScanModal(false);
       setNewScanUrl('');
-      await loadDashboardData();
+      
+      // Refresh data after a short delay to show the new scan
+      setTimeout(loadDashboardData, 1000);
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Failed to start scan');
+      toast.error(error.response?.data?.detail || 'Failed to start scan', { id: 'scan-start' });
     } finally {
       setLoading(false);
     }
