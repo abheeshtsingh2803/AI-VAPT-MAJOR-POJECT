@@ -1,0 +1,161 @@
+{
+  "summary": {
+    "total_tests": 25,
+    "passed_tests": 23,
+    "failed_tests": 2,
+    "success_rate": 92.0,
+    "timestamp": "2025-09-25T17:28:50.604280"
+  },
+  "detailed_results": [
+    {
+      "test": "API Health Check",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:13.637101"
+    },
+    {
+      "test": "User Registration",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:13.961388"
+    },
+    {
+      "test": "Registration Token Received",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:13.962019"
+    },
+    {
+      "test": "User Login",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:15.951534"
+    },
+    {
+      "test": "Login Token Received",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:15.952202"
+    },
+    {
+      "test": "Dashboard Statistics",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:15.991462"
+    },
+    {
+      "test": "Dashboard Statistics Fields",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:15.992118"
+    },
+    {
+      "test": "Get User Scans",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:16.029873"
+    },
+    {
+      "test": "Start Vulnerability Scan",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:16.075321"
+    },
+    {
+      "test": "Scan ID Generated",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:16.075925"
+    },
+    {
+      "test": "Get Scan Vulnerabilities",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:16.751988"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:16.790085"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:21.849568"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:26.910126"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:31.965697"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:37.033124"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:42.110275"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:47.227892"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:27:52.288306"
+    },
+    {
+      "test": "Check Scan Status",
+      "success": false,
+      "details": "Request failed: HTTPSConnectionPool(host='autovapt.preview.emergentagent.com', port=443): Read timed out. (read timeout=30)",
+      "timestamp": "2025-09-25T17:28:27.366388"
+    },
+    {
+      "test": "Scan Completion",
+      "success": false,
+      "details": "Scan did not complete within 45 seconds",
+      "timestamp": "2025-09-25T17:28:32.366492"
+    },
+    {
+      "test": "Invalid Authentication Handling",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:28:50.464224"
+    },
+    {
+      "test": "Duplicate User Registration Prevention",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:28:50.519181"
+    },
+    {
+      "test": "Invalid Login Handling",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:28:50.566187"
+    },
+    {
+      "test": "Scan with Invalid URL",
+      "success": true,
+      "details": "",
+      "timestamp": "2025-09-25T17:28:50.603403"
+    }
+  ]
+}
