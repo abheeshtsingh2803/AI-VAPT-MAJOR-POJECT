@@ -119,7 +119,7 @@ const LoginForm = ({ onLogin, onRegister, loading }) => {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !formData.username || !formData.password || (!isLogin && !formData.email)}
               className="btn btn-primary w-full"
               data-testid="auth-submit-button"
             >
