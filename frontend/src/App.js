@@ -1,50 +1,124 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
+import './App.css';
+
+// Components
+import LoginForm from './components/LoginForm';
+import Dashboard from './components/Dashboard';
+import ScanDetails from './components/ScanDetails';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const Home = () => {
-  const helloWorldApi = async () => {
+// Set up axios defaults
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+function App() {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common['Authorization'];
+    }
+  }, [token]);
+
+  const handleLogin = async (credentials) => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+      const response = await axios.post(`${API}/auth/login`, credentials);
+      const { access_token } = response.data;
+      
+      setToken(access_token);
+      localStorage.setItem('token', access_token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+      
+      toast.success('Login successful!');
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Login failed');
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+  const handleRegister = async (userData) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(`${API}/auth/register`, userData);
+      const { access_token } = response.data;
+      
+      setToken(access_token);
+      localStorage.setItem('token', access_token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+      
+      toast.success('Registration successful!');
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Registration failed');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+  const handleLogout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
+    toast.success('Logged out successfully');
+  };
 
-function App() {
+  const ProtectedRoute = ({ children }) => {
+    return token ? children : <Navigate to="/login" replace />;
+  };
+
   return (
     <div className="App">
+      <Toaster position="top-right" />
+      
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route 
+            path="/login" 
+            element={
+              token ? 
+                <Navigate to="/dashboard" replace /> : 
+                <LoginForm 
+                  onLogin={handleLogin} 
+                  onRegister={handleRegister} 
+                  loading={loading} 
+                />
+            } 
+          />
+          
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <Dashboard onLogout={handleLogout} />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/scan/:scanId" 
+            element={
+              <ProtectedRoute>
+                <ScanDetails onLogout={handleLogout} />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/" 
+            element={<Navigate to={token ? "/dashboard" : "/login"} replace />} 
+          />
         </Routes>
       </BrowserRouter>
     </div>
